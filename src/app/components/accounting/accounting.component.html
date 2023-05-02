@@ -1,0 +1,266 @@
+
+<ul class="nav nav-pills m-3" id="pills-tab" role="tablist">
+  <li class="nav-item" role="presentation">
+    <button class="nav-link active" id="pills-generar-tab" data-bs-toggle="pill" data-bs-target="#pills-generar" type="button" role="tab" aria-controls="pills-generar" aria-selected="true">generar</button>
+  </li>
+  <li class="nav-item" role="presentation">
+    <button class="nav-link " id="pills-buscar-tab" data-bs-toggle="pill" data-bs-target="#pills-buscar" type="button" role="tab" aria-controls="pills-buscar" aria-selected="false">buscar</button>
+  </li>
+</ul>
+<div class="tab-content" id="pills-tabContent">
+  <div class="tab-pane fade show active" id="pills-generar" role="tabpanel" aria-labelledby="pills-generar-tab">
+    <h2>Accounting</h2>
+    <p>Aqui se listan los Accounting</p>
+    <hr>
+    <!-- <button class="btn btn-info mx-1" (click)="exportexcel()"><fa-icon [icon]="faDownload"></fa-icon> Export to Excel</button>
+    <hr> -->
+
+    <div class="row mb-5">
+      <div class="col-8">
+        <form #formgeneratehAccounting="ngForm" (ngSubmit)="generate()" >
+          <div class="row">
+            <div class="col-6">
+              <label for="subsidiary">Subsidiary</label>
+              <select name="subsidiary" id="subsidiary" class="form-select" [(ngModel)]="generatehAccounting.subsidiary">
+                <option value="{{sub.codsubsidiary}}" *ngFor="let sub of subsidiary">{{sub.nombre}}</option>
+              </select>
+
+              <label for="session">Session</label>
+              <select name="session" id="session" class="form-select" [(ngModel)]="generatehAccounting.session">
+                <option value="*">All</option>
+                <option value="{{sess}}" *ngFor="let sess of session">{{sess}}</option>
+              </select>
+            </div>
+            <div class="col-6">
+              <label for="corecod">corecod</label>
+              <select name="corecod" id="corecod" class="form-select" [(ngModel)]="generatehAccounting.corecode">
+                <option value="*">All</option>
+                <option value="{{cor.codcore}}" *ngFor="let cor of core">{{cor.nombre}}</option>
+              </select>
+
+              <label for="fechaasiento">fechaasiento</label>
+              <select name="fechaasiento" id="fechaasiento" class="form-select" [(ngModel)]="generatehAccounting.fechaasiento">
+                <option value="{{dat}}" *ngFor="let dat of date">{{dat}}</option>
+              </select>
+
+              <label for="nota">nota</label>
+              <input type="text" class="form-control" placeholder="nota" name="nota" [(ngModel)]="generatehAccounting.nota">
+            </div>
+
+          </div>
+          <button type="submit" class="btn btn-success my-3"><fa-icon [icon]="faPlus"></fa-icon></button>
+        </form>
+      </div>
+    </div>
+
+    <!-- <div >No hay datos</div> -->
+
+    <div class="row">
+      <div class="col">
+        <table class="table table-hover table-bordered" id="tableAccounting1" >
+          <thead>
+            <tr>
+              <th>PKID</th>
+              <th>ACCOUNTID</th>
+              <!-- <th>CLASSID</th> -->
+              <!-- <th>CODCORE</th> -->
+              <th>CODTRANSACCION</th>
+              <th>CUENTAPUC</th>
+              <!-- <th>DEPARTAMENTID</th> -->
+              <!-- <th>FECHAASIENTO</th> -->
+              <!-- <th>FECHAGENERACION</th> -->
+              <th>IDACCOUNTING</th>
+              <!-- <th>IDENTITYID</th> -->
+              <!-- <th>LOCATIONID</th> -->
+              <th>MEMO</th>
+              <th>MONTO</th>
+              <th>NATURALEZA</th>
+              <th>NOTA</th>
+              <!-- <th>PSESSION</th> -->
+              <!-- <th>SUBSIDIARY</th> -->
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let ac of accounting">
+              <td>{{ac.pkidregister}}</td>
+              <td>{{ac.accountid}}</td>
+              <!-- <td>{{ac.classid}}</td> -->
+              <!-- <td>{{ac.codcore}}</td> -->
+              <td>{{ac.codtransaccion}}</td>
+              <td>{{ac.cuentapuc}}</td>
+              <!-- <td>{{ac.departamentid}}</td> -->
+              <!-- <td>{{ac.fechaasiento}}</td> -->
+              <!-- <td>{{ac.fechageneracion}}</td> -->
+              <td>{{ac.idaccounting}}</td>
+              <!-- <td>{{ac.identityid}}</td> -->
+              <!-- <td>{{ac.locationid}}</td> -->
+              <td>{{ac.memo}}</td>
+              <td>{{ac.monto}}</td>
+              <td>{{ac.naturaleza}}</td>
+              <td>{{ac.nota}}</td>
+              <!-- <td>{{ac.psession}}</td> -->
+              <!-- <td>{{ac.subsidiary}}</td> -->
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div class="tab-pane fade " id="pills-buscar" role="tabpanel" aria-labelledby="pills-buscar-tab">
+    <h2>Accounting</h2>
+    <p>Aqui se listan los Accounting</p>
+    <hr>
+    <button class="btn btn-info mx-1" (click)="exportexcel()"><fa-icon [icon]="faDownload"></fa-icon> Export to Excel</button>
+    <hr>
+    <div class="row mb-5">
+      <div class="col-8">
+        <form #formSearchAccounting="ngForm" (ngSubmit)="searchAcc()" >
+          <div class="row">
+            <div class="col-6">
+              <label for="subsidiary">Subsidiary</label>
+              <select name="subsidiary" id="subsidiary" class="form-select" [(ngModel)]="searchAccounting.subsidiary">
+                <option value="{{sub.codsubsidiary}}" *ngFor="let sub of subsidiary">{{sub.nombre}}</option>
+              </select>
+
+              <label for="session">Session</label>
+              <select name="session" id="session" class="form-select" [(ngModel)]="searchAccounting.session">
+                <option value="*">All</option>
+                <option value="{{sess}}" *ngFor="let sess of session">{{sess}}</option>
+              </select>
+            </div>
+            <div class="col-6">
+              <label for="corecod">Codcore</label>
+              <select name="corecod" id="corecod" class="form-select" [(ngModel)]="searchAccounting.corecode">
+                <option value="*">All</option>
+                <option value="{{cor.codcore}}" *ngFor="let cor of core">{{cor.nombre}}</option>
+              </select>
+
+              <label for="fechaasiento">fechaasiento</label>
+              <select name="fechaasiento" id="fechaasiento" class="form-select" [(ngModel)]="searchAccounting.fechaasiento">
+                <option value="{{dat}}" *ngFor="let dat of date">{{dat}}</option>
+              </select>
+            </div>
+          </div>
+          <button type="submit" class="btn btn-success my-3 text-white"><fa-icon [icon]="faSearch"></fa-icon></button>
+        </form>
+      </div>
+    </div>
+
+
+    <div class="row">
+      <div class="col">
+        <table class="table table-hover table-bordered" id="tableAccounting1" >
+          <thead>
+            <tr>
+              <th>PKID</th>
+              <th>ACCOUNTID</th>
+              <!-- <th>CLASSID</th> -->
+              <!-- <th>CODCORE</th> -->
+              <th>CODTRANSACCION</th>
+              <th>CUENTAPUC</th>
+              <!-- <th>DEPARTAMENTID</th> -->
+              <!-- <th>FECHAASIENTO</th> -->
+              <!-- <th>FECHAGENERACION</th> -->
+              <th>IDACCOUNTING</th>
+              <!-- <th>IDENTITYID</th> -->
+              <!-- <th>LOCATIONID</th> -->
+              <th>MEMO</th>
+              <th>MONTO</th>
+              <th>NATURALEZA</th>
+              <th>NOTA</th>
+              <!-- <th>PSESSION</th> -->
+              <!-- <th>SUBSIDIARY</th> -->
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let ac of accounting">
+              <td>{{ac.pkidregister}}</td>
+              <td>{{ac.accountid}}</td>
+              <!-- <td>{{ac.classid}}</td> -->
+              <!-- <td>{{ac.codcore}}</td> -->
+              <td>{{ac.codtransaccion}}</td>
+              <td>{{ac.cuentapuc}}</td>
+              <!-- <td>{{ac.departamentid}}</td> -->
+              <!-- <td>{{ac.fechaasiento}}</td> -->
+              <!-- <td>{{ac.fechageneracion}}</td> -->
+              <td>{{ac.idaccounting}}</td>
+              <!-- <td>{{ac.identityid}}</td> -->
+              <!-- <td>{{ac.locationid}}</td> -->
+              <td>{{ac.memo}}</td>
+              <td>{{ac.monto}}</td>
+              <td>{{ac.naturaleza}}</td>
+              <td>{{ac.nota}}</td>
+              <!-- <td>{{ac.psession}}</td> -->
+              <!-- <td>{{ac.subsidiary}}</td> -->
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- <button>Enviar a NetSuite</button> -->
+    <button class="btn btn-success mx-1" (click)="sendNetsuite()">Enviar a NetSuite <fa-icon [icon]="faShare"></fa-icon> </button>
+
+    <!-- Tabla para exportar  -->
+    <div class="row hide" >
+      <div class="col">
+        <table class="table table-hover table-bordered" id="tableAccounting" >
+          <thead>
+            <tr>
+              <th>PKID</th>
+              <th>ACCOUNTID</th>
+              <th>CLASSID</th>
+              <th>CODCORE</th>
+              <th>CODTRANSACCION</th>
+              <th>CUENTAPUC</th>
+              <th>DEPARTAMENTID</th>
+              <th>FECHAASIENTO</th>
+              <th>FECHAGENERACION</th>
+              <th>IDACCOUNTING</th>
+              <th>IDENTITYID</th>
+              <th>LOCATIONID</th>
+              <th>MEMO</th>
+              <th>MONTO</th>
+              <th>NATURALEZA</th>
+              <th>NOTA</th>
+              <th>PSESSION</th>
+              <th>SUBSIDIARY</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let ac of accounting">
+              <td>{{ac.pkidregister}}</td>
+              <td>{{ac.accountid}}</td>
+              <td>{{ac.classid}}</td>
+              <td>{{ac.codcore}}</td>
+              <td>{{ac.codtransaccion}}</td>
+              <td>{{ac.cuentapuc}}</td>
+              <td>{{ac.departamentid}}</td>
+              <td>{{ac.fechaasiento}}</td>
+              <td>{{ac.fechageneracion}}</td>
+              <td>{{ac.idaccounting}}</td>
+              <td>{{ac.identityid}}</td>
+              <td>{{ac.locationid}}</td>
+              <td>{{ac.memo}}</td>
+              <td>{{ac.monto}}</td>
+              <td>{{ac.naturaleza}}</td>
+              <td>{{ac.nota}}</td>
+              <td>{{ac.psession}}</td>
+              <td>{{ac.subsidiary}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+
+
+<div class="row">
+  <div class="col">
+
+  </div>
+</div>

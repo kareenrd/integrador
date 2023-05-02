@@ -1,0 +1,160 @@
+<div class="col">
+
+  <div class="mt-5">
+    <h2>Cores</h2>
+    <p>Aqui se listan los Cores</p>
+    <hr>
+  </div>
+
+  <button class="btn btn-success mx-1" data-bs-toggle="modal" data-bs-target="#createCore">
+    <fa-icon [icon]="faPlus"></fa-icon> Crear</button>
+  <button class="btn btn-success mx-1" data-bs-toggle="modal" data-bs-target="#loadFileCore">
+  <fa-icon [icon]="faUpload"></fa-icon> Cargar archivo  </button>
+  <button class="btn btn-info mx-1" (click)="exportexcel()"><fa-icon [icon]="faDownload"></fa-icon> Export to Excel</button>
+
+  <hr>
+
+  <table class="table table-hover table-bordered" id="tableCore">
+    <thead>
+      <tr>
+        <th>PKID</th>
+        <th>NOMBRE</th>
+        <th>CODCORE</th>
+        <th>VIGENCIA DESDE</th>
+        <th>VIGENCIA HASTA</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let cor of core">
+        <td>{{cor.pkidregister}}</td>
+        <td>{{cor.nombre}}</td>
+        <td>{{cor.codcore}}</td>
+        <td>{{cor.vigenciadesde}}</td>
+        <td>{{cor.vigenciahasta}}</td>
+        <td>
+          <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#editCore"><fa-icon [icon]="faEdit" (click)="get(cor.pkidregister)"></fa-icon></button>
+          <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteCore"><fa-icon [icon]="faTrash" (click)="btnDelete(cor.pkidregister)"></fa-icon></button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="modal" id="createCore">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Crear linea de Core contable</h4>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body ">
+        <div class="col-12 px-5">
+          <form id="formCreateCore" #formnewCore="ngForm" (ngSubmit)="create()">
+            <div class="mb-3 mt-3">
+              <label for="nombre" class="form-label">NOMBRE:</label>
+              <input type="text" class="form-control" id="nombre" placeholder="Enter nombre" name="nombre" [(ngModel)]="newCore.nombre" value="prueba1">
+            </div>
+            <div class="mb-3 ">
+              <label for="codCore" class="form-label">COD Core:</label>
+              <input type="text" class="form-control" id="codCore" placeholder="Enter codCore" name="codCore" [(ngModel)]="newCore.codcore" value="prueba1">
+            </div>
+            <div class="mb-3 ">
+              <label for="vigenciadesde" class="form-label">VIGENCIA DESDE:</label>
+              <input type="date" class="form-control" id="vigenciadesde" placeholder="Enter vigenciadesde" name="vigenciadesde" [(ngModel)]="newCore.vigenciadesde" value="prueba1">
+            </div>
+            <div class="mb-3 ">
+              <label for="vigenciahasta" class="form-label">VIGENCIA HASTA:</label>
+              <input type="date" class="form-control" id="vigenciahasta" placeholder="Enter vigenciahasta" name="vigenciahasta" [(ngModel)]="newCore.vigenciahasta" value="prueba1">
+            </div>
+            <button type="submit" class="btn btn-success" data-bs-dismiss="modal">Save</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal" id="loadFileCore">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Cargar archivo de Core contable</h4>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body ">
+        <div class="col-12 px-5">
+          <div class="mb-3 mt-3">
+            <label for="file" class="form-label">ARCHIVO:</label>
+            <br><span>Por favor solo cargue archivos con extensión .txt y que se encuentren delimitados por | </span>
+            <input type="file" class="form-control" id="file" placeholder="Enter file" name="file" accept=".txt">
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-success" data-bs-dismiss="modal" onclick="loadFile();">Save</button>
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal" id="editCore">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Editar Core contable</h4>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body ">
+        <div class="col-12 px-5">
+          <form id="formUpdateCore" #formUpdateCore="ngForm" (ngSubmit)="update()">
+            <div class="mb-3 mt-3">
+              <label for="pkidregister" class="form-label">PKID:</label>
+              <input type="text" disabled class="form-control" id="editCore_pkidregister" placeholder="Enter pkidregister" name="pkidregister" [(ngModel)]="editCore.pkidregister">
+            </div>
+            <div class="mb-3 mt-3">
+              <label for="nombre" class="form-label">NOMBRE:</label>
+              <input type="text" class="form-control" id="editCore_nombre" placeholder="Enter nombre" name="nombre" [(ngModel)]="editCore.nombre">
+            </div>
+            <div class="mb-3 ">
+              <label for="codCore" class="form-label">CODCORE:</label>
+              <input type="text" class="form-control" id="editCore_codCore" placeholder="Enter codCore" name="codCore" [(ngModel)]="editCore.codcore">
+            </div>
+            <div class="mb-3 ">
+              <label for="vigenciadesde" class="form-label">VIGENCIA DESDE:</label>
+              <input type="date" class="form-control" id="editCore_vigenciadesde" placeholder="Enter vigenciadesde" name="vigenciadesde" [(ngModel)]="editCore.vigenciadesde">
+            </div>
+            <div class="mb-3 ">
+              <label for="vigenciahasta" class="form-label">VIGENCIA HASTA:</label>
+              <input type="date" class="form-control" id="editCore_vigenciahasta" placeholder="Enter vigenciahasta" name="vigenciahasta" [(ngModel)]="editCore.vigenciahasta">
+            </div>
+            <button type="submit" class="btn btn-success" data-bs-dismiss="modal">Update</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal" id="deleteCore">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Eliminar Core contable</h4>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body ">
+        <form id="formUpdateCore" #formUpdateCore="ngForm" (ngSubmit)="delete()">
+          <div class="mb-3 ">
+            ¿Seguro que quiere eliminar el core {{deleteCore}}?
+          </div>
+          <button type="submit" class="btn btn-danger" data-bs-dismiss="modal">Eliminar</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

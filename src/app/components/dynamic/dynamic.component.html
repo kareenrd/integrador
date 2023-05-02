@@ -1,0 +1,268 @@
+
+<div class="row">
+  <div class="col">
+
+    <div class="mt-5">
+      <h2>Dynamics</h2>
+      <p>Aqui se listan los Dynamics</p>
+      <hr>
+    </div>
+
+    <button class="btn btn-success mx-1" data-bs-toggle="modal" data-bs-target="#createDynamic">
+      <fa-icon [icon]="faPlus"></fa-icon> Crear</button>
+    <button class="btn btn-success mx-1" data-bs-toggle="modal" data-bs-target="#loadFileDynamic">
+    <fa-icon [icon]="faUpload"></fa-icon> Cargar archivo  </button>
+    <button class="btn btn-info mx-1" (click)="exportexcel()"><fa-icon [icon]="faDownload"></fa-icon> Export to Excel</button>
+
+    <hr>
+
+    <table class="table table-hover table-bordered" id="tableDynamic">
+      <thead>
+        <tr>
+          <th>PKID</th>
+          <th>CODTRANSACCION</th>
+          <th>SUBSIDIARY</th>
+          <th>CODCORE</th>
+          <th>NATURALEZA</th>
+          <th>ORDEN</th>
+          <th>CUENTAPUC</th>
+          <th>ID_NETSUITE</th>
+          <th>LOCATION</th>
+          <th>DEPARTAMENT</th>
+          <th>CLASS</th>
+          <th>ENTITY</th>
+          <th>MEMO</th>
+          <!-- <th>VIGENCIA DESDE</th> -->
+          <!-- <th>VIGENCIA HASTA</th> -->
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let din of dynamic">
+          <td>{{din.pkidregister}}</td>
+          <td>{{din.codtransaccion}}</td>
+          <td>{{din.subsidiary}}</td>
+          <td>{{din.codcore}}</td>
+          <td>{{din.naturaleza}}</td>
+          <td>{{din.orden}}</td>
+          <td>{{din.cuentapuc}}</td>
+          <td>{{din.idaccount}}</td>
+          <td>{{din.location}}</td>
+          <td>{{din.departament}}</td>
+          <td>{{din.class}}</td>
+          <td>{{din.entity}}</td>
+          <td>{{din.memo}}</td>
+          <!-- <td>{{din.vigenciadesde}}</td> -->
+          <!-- <td>{{din.vigenciahasta}}</td> -->
+
+
+
+          <td>
+            <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#editDynamic"><fa-icon [icon]="faEdit" (click)="get(din.pkidregister)"></fa-icon></button>
+            <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteDynamic"><fa-icon [icon]="faTrash" (click)="btnDelete(din.pkidregister)"></fa-icon></button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="modal" id="createDynamic">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Crear linea de Dynamic contable</h4>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body ">
+          <div class="col-12 px-5">
+            <form id="formCreateDynamic" #formnewDynamic="ngForm" (ngSubmit)="create()">
+              <div class="mb-3 mt-3">
+                <label for="codtransaccion" class="form-label">codtransaccion:</label>
+                <input type="text" class="form-control" id="codtransaccion" placeholder="Enter codtransaccion" name="codtransaccion" [(ngModel)]="newDynamic.codtransaccion" value="prueba1">
+              </div>
+              <div class="mb-3 mt-3">
+                <label for="subsidiary" class="form-label">subsidiary:</label>
+                <input type="text" class="form-control" id="subsidiary" placeholder="Enter subsidiary" name="subsidiary" [(ngModel)]="newDynamic.subsidiary" value="prueba1">
+              </div>
+              <div class="mb-3 mt-3">
+                <label for="codcore" class="form-label">codcore:</label>
+                <input type="text" class="form-control" id="codcore" placeholder="Enter codcore" name="codcore" [(ngModel)]="newDynamic.codcore" value="prueba1">
+              </div>
+              <div class="mb-3 mt-3">
+                <label for="naturaleza" class="form-label">naturaleza:</label>
+                <input type="text" class="form-control" id="naturaleza" placeholder="Enter naturaleza" name="naturaleza" [(ngModel)]="newDynamic.naturaleza" value="prueba1">
+              </div>
+              <div class="mb-3 mt-3">
+                <label for="orden" class="form-label">orden:</label>
+                <input type="text" class="form-control" id="orden" placeholder="Enter orden" name="orden" [(ngModel)]="newDynamic.orden" value="prueba1">
+              </div>
+              <div class="mb-3 mt-3">
+                <label for="cuentapuc" class="form-label">cuentapuc:</label>
+                <input type="text" class="form-control" id="cuentapuc" placeholder="Enter cuentapuc" name="cuentapuc" [(ngModel)]="newDynamic.cuentapuc" value="prueba1">
+              </div>
+              <div class="mb-3 mt-3">
+                <label for="idaccount" class="form-label">idaccount:</label>
+                <input type="text" class="form-control" id="idaccount" placeholder="Enter idaccount" name="idaccount" [(ngModel)]="newDynamic.idaccount" value="prueba1">
+              </div>
+              <div class="mb-3 mt-3">
+                <label for="location" class="form-label">location:</label>
+                <input type="text" class="form-control" id="location" placeholder="Enter location" name="location" [(ngModel)]="newDynamic.location" value="prueba1">
+              </div>
+              <div class="mb-3 mt-3">
+                <label for="departament" class="form-label">departament:</label>
+                <input type="text" class="form-control" id="departament" placeholder="Enter departament" name="departament" [(ngModel)]="newDynamic.departament" value="prueba1">
+              </div>
+              <div class="mb-3 mt-3">
+                <label for="class" class="form-label">class:</label>
+                <input type="text" class="form-control" id="class" placeholder="Enter class" name="class" [(ngModel)]="newDynamic.class" value="prueba1">
+              </div>
+              <div class="mb-3 mt-3">
+                <label for="entity" class="form-label">entity:</label>
+                <input type="text" class="form-control" id="entity" placeholder="Enter entity" name="entity" [(ngModel)]="newDynamic.entity" value="prueba1">
+              </div>
+              <div class="mb-3 mt-3">
+                <label for="memo" class="form-label">memo:</label>
+                <input type="text" class="form-control" id="memo" placeholder="Enter memo" name="memo" [(ngModel)]="newDynamic.memo" value="prueba1">
+              </div>
+
+              <div class="mb-3 ">
+                <label for="vigenciadesde" class="form-label">VIGENCIA DESDE:</label>
+                <input type="date" class="form-control" id="vigenciadesde" placeholder="Enter vigenciadesde" name="vigenciadesde" [(ngModel)]="newDynamic.vigenciadesde" value="prueba1">
+              </div>
+              <div class="mb-3 ">
+                <label for="vigenciahasta" class="form-label">VIGENCIA HASTA:</label>
+                <input type="date" class="form-control" id="vigenciahasta" placeholder="Enter vigenciahasta" name="vigenciahasta" [(ngModel)]="newDynamic.vigenciahasta" value="prueba1">
+              </div>
+              <button type="submit" class="btn btn-success" data-bs-dismiss="modal">Save</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="modal" id="loadFileDynamic">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Cargar archivo de Dynamic contable</h4>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body ">
+          <div class="col-12 px-5">
+            <div class="mb-3 mt-3">
+              <label for="file" class="form-label">ARCHIVO:</label>
+              <br><span>Por favor solo cargue archivos con extensión .txt y que se encuentren delimitados por | </span>
+              <input type="file" class="form-control" id="file" placeholder="Enter file" name="file" accept=".txt">
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-success" data-bs-dismiss="modal" onclick="loadFile();">Save</button>
+          <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="modal" id="editDynamic">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Editar Dynamic contable</h4>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body ">
+          <div class="col-12 px-5">
+            <form id="formUpdateDynamic" #formUpdateDynamic="ngForm" (ngSubmit)="update()">
+              <div class="mb-3 mt-3">
+                <label for="pkidregister" class="form-label">PKID:</label>
+                <input type="text" disabled class="form-control" id="editDynamic_pkidregister" placeholder="Enter pkidregister" name="pkidregister" [(ngModel)]="editDynamic.pkidregister">
+              </div>
+              <div class="mb-3 mt-3">
+                <label for="codtransaccion" class="form-label">codtransaccion:</label>
+                <input type="text" class="form-control" id="codtransaccion" placeholder="Enter codtransaccion" name="codtransaccion" [(ngModel)]="editDynamic.codtransaccion" value="prueba1">
+              </div>
+              <div class="mb-3 mt-3">
+                <label for="subsidiary" class="form-label">subsidiary:</label>
+                <input type="text" class="form-control" id="subsidiary" placeholder="Enter subsidiary" name="subsidiary" [(ngModel)]="editDynamic.subsidiary" value="prueba1">
+              </div>
+              <div class="mb-3 mt-3">
+                <label for="codcore" class="form-label">codcore:</label>
+                <input type="text" class="form-control" id="codcore" placeholder="Enter codcore" name="codcore" [(ngModel)]="editDynamic.codcore" value="prueba1">
+              </div>
+              <div class="mb-3 mt-3">
+                <label for="naturaleza" class="form-label">naturaleza:</label>
+                <input type="text" class="form-control" id="naturaleza" placeholder="Enter naturaleza" name="naturaleza" [(ngModel)]="editDynamic.naturaleza" value="prueba1">
+              </div>
+              <div class="mb-3 mt-3">
+                <label for="orden" class="form-label">orden:</label>
+                <input type="text" class="form-control" id="orden" placeholder="Enter orden" name="orden" [(ngModel)]="editDynamic.orden" value="prueba1">
+              </div>
+              <div class="mb-3 mt-3">
+                <label for="cuentapuc" class="form-label">cuentapuc:</label>
+                <input type="text" class="form-control" id="cuentapuc" placeholder="Enter cuentapuc" name="cuentapuc" [(ngModel)]="editDynamic.cuentapuc" value="prueba1">
+              </div>
+              <div class="mb-3 mt-3">
+                <label for="idaccount" class="form-label">idaccount:</label>
+                <input type="text" class="form-control" id="idaccount" placeholder="Enter idaccount" name="idaccount" [(ngModel)]="editDynamic.idaccount" value="prueba1">
+              </div>
+              <div class="mb-3 mt-3">
+                <label for="location" class="form-label">location:</label>
+                <input type="text" class="form-control" id="location" placeholder="Enter location" name="location" [(ngModel)]="editDynamic.location" value="prueba1">
+              </div>
+              <div class="mb-3 mt-3">
+                <label for="departament" class="form-label">departament:</label>
+                <input type="text" class="form-control" id="departament" placeholder="Enter departament" name="departament" [(ngModel)]="editDynamic.departament" value="prueba1">
+              </div>
+              <div class="mb-3 mt-3">
+                <label for="class" class="form-label">class:</label>
+                <input type="text" class="form-control" id="class" placeholder="Enter class" name="class" [(ngModel)]="editDynamic.class" value="prueba1">
+              </div>
+              <div class="mb-3 mt-3">
+                <label for="entity" class="form-label">entity:</label>
+                <input type="text" class="form-control" id="entity" placeholder="Enter entity" name="entity" [(ngModel)]="editDynamic.entity" value="prueba1">
+              </div>
+              <div class="mb-3 mt-3">
+                <label for="memo" class="form-label">memo:</label>
+                <input type="text" class="form-control" id="memo" placeholder="Enter memo" name="memo" [(ngModel)]="editDynamic.memo" value="prueba1">
+              </div>
+
+              <div class="mb-3 ">
+                <label for="vigenciadesde" class="form-label">VIGENCIA DESDE:</label>
+                <input type="date" class="form-control" id="vigenciadesde" placeholder="Enter vigenciadesde" name="vigenciadesde" [(ngModel)]="editDynamic.vigenciadesde" value="prueba1">
+              </div>
+              <div class="mb-3 ">
+                <label for="vigenciahasta" class="form-label">VIGENCIA HASTA:</label>
+                <input type="date" class="form-control" id="vigenciahasta" placeholder="Enter vigenciahasta" name="vigenciahasta" [(ngModel)]="editDynamic.vigenciahasta" value="prueba1">
+              </div>
+              <button type="submit" class="btn btn-success" data-bs-dismiss="modal">Update</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="modal" id="deleteDynamic">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Eliminar Dynamic contable</h4>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body ">
+          <form id="formUpdateDynamic" #formUpdateDynamic="ngForm" (ngSubmit)="delete()">
+            <div class="mb-3 ">
+              ¿Seguro que quiere eliminar el Dynamic {{deleteDynamic}}?
+            </div>
+            <button type="submit" class="btn btn-danger" data-bs-dismiss="modal">Eliminar</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

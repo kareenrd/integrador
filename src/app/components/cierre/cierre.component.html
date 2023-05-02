@@ -1,0 +1,235 @@
+<div class="col">
+
+  <div class="mt-5">
+    <h2>Archivos de cierre contable</h2>
+    <p>Aqui se listan las operaciones de cierres contables Totales</p>
+    <hr>
+  </div>
+
+  <button class="btn btn-success mx-1" data-bs-toggle="modal" data-bs-target="#createCierre">
+    <fa-icon [icon]="faPlus"></fa-icon> Crear</button>
+  <button class="btn btn-success mx-1" data-bs-toggle="modal" data-bs-target="#loadFileCierre">
+  <fa-icon [icon]="faUpload"></fa-icon> Cargar archivo  </button>
+  <button class="btn btn-info mx-1" (click)="exportexcel()"><fa-icon [icon]="faDownload"></fa-icon> Export to Excel</button>
+
+  <hr>
+
+  <table class="table table-hover table-bordered" id="tableCierre">
+    <thead>
+      <tr>
+        <th>PKID</th>
+        <th>NRO</th>
+        <th>CODCORE</th>
+        <th>TRANSACTION</th>
+        <th>FECHA</th>
+        <th>NOMBRE ARCHIVO</th>
+        <th>SESSION</th>
+        <th>AMOUNT</th>
+        <th>TOTAL</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let flat of cierre">
+        <td>{{flat.pkidregister}}</td>
+        <td>{{flat.nro}}</td>
+        <td>{{flat.codcore}}</td>
+        <td>{{flat.transactionh}}</td>
+        <td>{{flat.fecha}}</td>
+        <td>{{flat.nombrearchivo}}</td>
+        <td>{{flat.psession}}</td>
+        <td>{{flat.amount}}</td>
+        <td>{{flat.totalamount}}</td>
+        <td>
+          <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#editCierre"><fa-icon [icon]="faEdit" (click)="get(flat.pkidregister)"></fa-icon></button>
+          <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteCierre"><fa-icon [icon]="faTrash" (click)="btnDelete(flat.pkidregister)"></fa-icon></button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <!-- <div class="row font-bold m-2">
+    <div class="col-1">PKID</div>
+    <div class="col-1">NRO</div>
+    <div class="col-1">CODCORE</div>
+    <div class="col-1">TRANSACTION</div>
+    <div class="col-1">FECHA</div>
+    <div class="col-3">FILE</div>
+    <div class="col-1">SESSION</div>
+    <div class="col-1">AMOUNT</div>
+    <div class="col-1">TOTAL</div>
+    <div class="col-1"></div>
+  </div>
+
+
+  <div class="row fila m-2" *ngFor="let flat of cierre">
+    <div class="col-1">{{flat.pkidregister}}</div>
+    <div class="col-1">{{flat.nro}}</div>
+    <div class="col-1">{{flat.codcore}}</div>
+    <div class="col-1">{{flat.transactionh}}</div>
+    <div class="col-1">{{flat.fecha}}</div>
+    <div class="col-3">{{flat.nombrearchivo}}</div>
+    <div class="col-1">{{flat.psession}}</div>
+    <div class="col-1">{{flat.amount}}</div>
+    <div class="col-1">{{flat.totalamount}}</div>
+    <div class="col-1">
+      <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#editCierre"><fa-icon [icon]="faEdit" (click)="get(flat.pkidregister)"></fa-icon></button>
+      <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteCierre"><fa-icon [icon]="faTrash" (click)="btnDelete(flat.pkidregister)"></fa-icon></button>
+    </div>
+  </div> -->
+
+</div>
+
+
+<div class="modal" id="createCierre">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Crear linea de cierre contable</h4>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body ">
+        <div class="col-12 px-5">
+          <form id="formCreateCierre" #formNewCierre="ngForm" (ngSubmit)="create()">
+            <div class="mb-3 mt-3">
+              <label for="nro" class="form-label">NRO:</label>
+              <input type="text" class="form-control" id="nro" placeholder="Enter nro" name="nro" [(ngModel)]="newCierre.nro" value="prueba1">
+            </div>
+            <div class="mb-3 ">
+              <label for="codcore" class="form-label">CODCORE:</label>
+              <input type="text" class="form-control" id="codcore" placeholder="Enter codcore" name="codcore" [(ngModel)]="newCierre.codcore" value="prueba1">
+            </div>
+            <div class="mb-3 ">
+              <label for="transactionh" class="form-label">TRANSACTION:</label>
+              <input type="text" class="form-control" id="transactionh" placeholder="Enter transactionh" name="transactionh" [(ngModel)]="newCierre.transactionh" value="prueba1">
+            </div>
+            <div class="mb-3 ">
+              <label for="amount" class="form-label">AMOUNT:</label>
+              <input type="text" class="form-control" id="amount" placeholder="Enter amount" name="amount" [(ngModel)]="newCierre.amount" value="prueba1">
+            </div>
+            <div class="mb-3 ">
+              <label for="totalamount" class="form-label">TOTAL AMOUNT:</label>
+              <input type="text" class="form-control" id="totalamount" placeholder="Enter totalamount" name="totalamount" [(ngModel)]="newCierre.totalamount" value="prueba1">
+            </div>
+            <div class="mb-3 ">
+              <label for="psession" class="form-label">SESSION:</label>
+              <input type="text" class="form-control" id="psession" placeholder="Enter psession" name="psession" [(ngModel)]="newCierre.psession" value="prueba1">
+            </div>
+            <div class="mb-3 hide">
+              <label for="fecha" class="form-label">DATE:</label>
+              <input type="text" class="form-control" id="fecha" placeholder="Enter fecha" name="fecha" [(ngModel)]="newCierre.fecha" value="prueba1">
+            </div>
+            <button type="submit" class="btn btn-success" data-bs-dismiss="modal">Save</button>
+          </form>
+        </div>
+      </div>
+      <!-- <div class="modal-footer">
+        <button type="submit" class="btn btn-success" data-bs-dismiss="modal">Save</button>
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+      </div> -->
+    </div>
+  </div>
+</div>
+
+
+<div class="modal" id="loadFileCierre">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Cargar archivo de cierre contable</h4>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body ">
+        <div class="col-12 px-5">
+          <div class="mb-3 mt-3">
+            <label for="file" class="form-label">ARCHIVO:</label>
+            <br><span>Por favor solo cargue archivos con extensión .txt y que se encuentren delimitados por | </span>
+            <input type="file" class="form-control" id="file" placeholder="Enter file" name="file" accept=".txt" (change)="uploadFile($event)">
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-success" data-bs-dismiss="modal" onclick="loadFile();">Save</button>
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal" id="editCierre">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Editar cierre contable</h4>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body ">
+        <div class="col-12 px-5">
+          <form id="formUpdateCierre" #formUpdateCierre="ngForm" (ngSubmit)="update()">
+            <div class="mb-3 mt-3">
+              <label for="pkidregister" class="form-label">PKID:</label>
+              <input type="text" disabled class="form-control" id="editCierre_pkidregister" placeholder="Enter pkidregister" name="pkidregister" [(ngModel)]="editCierre.pkidregister">
+            </div>
+            <div class="mb-3 mt-3">
+              <label for="nro" class="form-label">NRO:</label>
+              <input type="text" class="form-control" id="editCierre_nro" placeholder="Enter nro" name="nro" [(ngModel)]="editCierre.nro">
+            </div>
+            <div class="mb-3 ">
+              <label for="codcore" class="form-label">CODCORE:</label>
+              <input type="text" class="form-control" id="editCierre_codcore" placeholder="Enter codcore" name="codcore" [(ngModel)]="editCierre.codcore">
+            </div>
+            <div class="mb-3 ">
+              <label for="transactionh" class="form-label">TRANSACTION:</label>
+              <input type="text" class="form-control" id="editCierre_transactionh" placeholder="Enter transactionh" name="transactionh" [(ngModel)]="editCierre.transactionh">
+            </div>
+            <div class="mb-3 ">
+              <label for="amount" class="form-label">AMOUNT:</label>
+              <input type="text" class="form-control" id="editCierre_amount" placeholder="Enter amount" name="amount" [(ngModel)]="editCierre.amount">
+            </div>
+            <div class="mb-3 ">
+              <label for="totalamount" class="form-label">TOTAL AMOUNT:</label>
+              <input type="text" class="form-control" id="editCierre_totalamount" placeholder="Enter totalamount" name="totalamount" [(ngModel)]="editCierre.totalamount">
+            </div>
+            <div class="mb-3 ">
+              <label for="psession" class="form-label">SESSION:</label>
+              <input type="text" class="form-control" id="editCierre_psession" placeholder="Enter psession" name="psession" [(ngModel)]="editCierre.psession">
+            </div>
+            <div class="mb-3 hide">
+              <label for="fecha" class="form-label">DATE:</label>
+              <input type="text" class="form-control" id="editCierre_fecha" placeholder="Enter fecha" name="fecha" [(ngModel)]="editCierre.fecha">
+            </div>
+            <button type="submit" class="btn btn-success" data-bs-dismiss="modal">Update</button>
+          </form>
+        </div>
+      </div>
+      <!-- <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal" onclick="deleteCierre()">Delete</button>
+      </div> -->
+    </div>
+  </div>
+</div>
+
+
+<div class="modal" id="deleteCierre">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Eliminar cierre contable</h4>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body ">
+        <form id="formUpdateCierre" #formUpdateCierre="ngForm" (ngSubmit)="delete()">
+          <div class="mb-3 ">
+            ¿Seguro que quiere eliminar el cierre {{deleteCierre}}?
+          </div>
+          <button type="submit" class="btn btn-danger" data-bs-dismiss="modal">Eliminar</button>
+        </form>
+
+
+      </div>
+      <!-- <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal" (click)="delete()" [(ngModel)]="editCierre.pkidregister">Delete</button>
+      </div> -->
+    </div>
+  </div>
+</div>

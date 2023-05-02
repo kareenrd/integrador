@@ -1,0 +1,12 @@
+
+
+.fila{
+  border-bottom: 1px solid blue;
+  &:first-child{
+    border-right: 1px solid blue;
+  }
+}
+
+div{
+  word-wrap: break-word;
+}

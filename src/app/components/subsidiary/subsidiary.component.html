@@ -1,0 +1,174 @@
+<div class="col">
+
+  <div class="mt-5">
+    <h2>Subsidiarias</h2>
+    <p>Aqui se listan las subsidiarias</p>
+    <hr>
+  </div>
+
+  <button class="btn btn-success mx-1" data-bs-toggle="modal" data-bs-target="#createSubsidiary">
+    <fa-icon [icon]="faPlus"></fa-icon> Crear</button>
+  <button class="btn btn-success mx-1" data-bs-toggle="modal" data-bs-target="#loadFileSubsidiary">
+  <fa-icon [icon]="faUpload"></fa-icon> Cargar archivo  </button>
+  <button class="btn btn-info mx-1" (click)="exportexcel()"><fa-icon [icon]="faDownload"></fa-icon> Export to Excel</button>
+
+  <hr>
+
+  <table class="table table-hover table-bordered" id="tableSubsidiary">
+    <thead>
+      <tr>
+        <th>PKID</th>
+        <th>NOMBRE</th>
+        <th>CODSUBSIDIARY</th>
+        <th>VIGENCIA DESDE</th>
+        <th>VIGENCIA HASTA</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let sub of subsidiary">
+        <td>{{sub.pkidregister}}</td>
+        <td>{{sub.nombre}}</td>
+        <td>{{sub.codsubsidiary}}</td>
+        <td>{{sub.vigenciadesde}}</td>
+        <td>{{sub.vigenciahasta}}</td>
+        <td>
+          <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#editSubsidiary"><fa-icon [icon]="faEdit" (click)="get(sub.pkidregister)"></fa-icon></button>
+          <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteSubsidiary"><fa-icon [icon]="faTrash" (click)="btnDelete(sub.pkidregister)"></fa-icon></button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+
+<div class="modal" id="createSubsidiary">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Crear linea de Subsidiary contable</h4>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body ">
+        <div class="col-12 px-5">
+          <form id="formCreateSubsidiary" #formnewSubsidiary="ngForm" (ngSubmit)="create()">
+            <div class="mb-3 mt-3">
+              <label for="nombre" class="form-label">NOMBRE:</label>
+              <input type="text" class="form-control" id="nombre" placeholder="Enter nombre" name="nombre" [(ngModel)]="newSubsidiary.nombre" value="prueba1">
+            </div>
+            <div class="mb-3 ">
+              <label for="codsubsidiary" class="form-label">COD SUBSIDIARY:</label>
+              <input type="text" class="form-control" id="codsubsidiary" placeholder="Enter codsubsidiary" name="codsubsidiary" [(ngModel)]="newSubsidiary.codsubsidiary" value="prueba1">
+            </div>
+            <div class="mb-3 ">
+              <label for="vigenciadesde" class="form-label">VIGENCIA DESDE:</label>
+              <input type="date" class="form-control" id="vigenciadesde" placeholder="Enter vigenciadesde" name="vigenciadesde" [(ngModel)]="newSubsidiary.vigenciadesde" value="prueba1">
+            </div>
+            <div class="mb-3 ">
+              <label for="vigenciahasta" class="form-label">VIGENCIA HASTA:</label>
+              <input type="date" class="form-control" id="vigenciahasta" placeholder="Enter vigenciahasta" name="vigenciahasta" [(ngModel)]="newSubsidiary.vigenciahasta" value="prueba1">
+            </div>
+            <button type="submit" class="btn btn-success" data-bs-dismiss="modal">Save</button>
+          </form>
+        </div>
+      </div>
+      <!-- <div class="modal-footer">
+        <button type="submit" class="btn btn-success" data-bs-dismiss="modal">Save</button>
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+      </div> -->
+    </div>
+  </div>
+</div>
+
+
+<div class="modal" id="loadFileSubsidiary">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Cargar archivo de Subsidiary contable</h4>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body ">
+        <div class="col-12 px-5">
+          <div class="mb-3 mt-3">
+            <label for="file" class="form-label">ARCHIVO:</label>
+            <br><span>Por favor solo cargue archivos con extensión .txt y que se encuentren delimitados por | </span>
+            <input type="file" class="form-control" id="file" placeholder="Enter file" name="file" accept=".txt">
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-success" data-bs-dismiss="modal" onclick="loadFile();">Save</button>
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal" id="editSubsidiary">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Editar Subsidiary contable</h4>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body ">
+        <div class="col-12 px-5">
+          <form id="formUpdateSubsidiary" #formUpdateSubsidiary="ngForm" (ngSubmit)="update()">
+            <div class="mb-3 mt-3">
+              <label for="pkidregister" class="form-label">PKID:</label>
+              <input type="text" disabled class="form-control" id="editSubsidiary_pkidregister" placeholder="Enter pkidregister" name="pkidregister" [(ngModel)]="editSubsidiary.pkidregister">
+            </div>
+            <div class="mb-3 mt-3">
+              <label for="nombre" class="form-label">NOMBRE:</label>
+              <input type="text" class="form-control" id="editSubsidiary_nombre" placeholder="Enter nombre" name="nombre" [(ngModel)]="editSubsidiary.nombre">
+            </div>
+            <div class="mb-3 ">
+              <label for="codsubsidiary" class="form-label">COS SUBSIDIARY:</label>
+              <input type="text" class="form-control" id="editSubsidiary_codsubsidiary" placeholder="Enter codsubsidiary" name="codsubsidiary" [(ngModel)]="editSubsidiary.codsubsidiary">
+            </div>
+            <div class="mb-3 ">
+              <label for="vigenciadesde" class="form-label">VIGENCIA DESDE:</label>
+              <input type="date" class="form-control" id="editSubsidiary_vigenciadesde" placeholder="Enter vigenciadesde" name="vigenciadesde" [(ngModel)]="editSubsidiary.vigenciadesde">
+            </div>
+            <div class="mb-3 ">
+              <label for="vigenciahasta" class="form-label">VIGENCIA HASTA:</label>
+              <input type="date" class="form-control" id="editSubsidiary_vigenciahasta" placeholder="Enter vigenciahasta" name="vigenciahasta" [(ngModel)]="editSubsidiary.vigenciahasta">
+            </div>
+
+            <button type="submit" class="btn btn-success" data-bs-dismiss="modal">Update</button>
+          </form>
+        </div>
+      </div>
+      <!-- <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal" onclick="deleteSubsidiary()">Delete</button>
+      </div> -->
+    </div>
+  </div>
+</div>
+
+
+<div class="modal" id="deleteSubsidiary">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Eliminar Subsidiary contable</h4>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body ">
+        <form id="formUpdateSubsidiary" #formUpdateSubsidiary="ngForm" (ngSubmit)="delete()">
+          <div class="mb-3 ">
+            ¿Seguro que quiere eliminar la subsidiaria {{deleteSubsidiary}}?
+          </div>
+          <button type="submit" class="btn btn-danger" data-bs-dismiss="modal">Eliminar</button>
+        </form>
+
+
+      </div>
+      <!-- <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal" (click)="delete()" [(ngModel)]="editSubsidiary.pkidregister">Delete</button>
+      </div> -->
+    </div>
+  </div>
+</div>
