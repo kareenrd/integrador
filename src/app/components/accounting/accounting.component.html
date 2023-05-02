@@ -12,8 +12,8 @@
     <h2>Accounting</h2>
     <p>Aqui se listan los Accounting</p>
     <hr>
-    <!-- <button class="btn btn-info mx-1" (click)="exportexcel()"><fa-icon [icon]="faDownload"></fa-icon> Export to Excel</button>
-    <hr> -->
+    <button class="btn btn-info mx-1" (click)="exportexcel('tableAccountingGenerate')"><fa-icon [icon]="faDownload"></fa-icon> Export to Excel</button>
+    <hr>
 
     <div class="row mb-5">
       <div class="col-8">
@@ -105,12 +105,64 @@
         </table>
       </div>
     </div>
+
+    <!-- Tabla para exportar  -->
+    <div class="row hide" >
+      <div class="col">
+        <table class="table table-hover table-bordered" id="tableAccountingGenerate" >
+          <thead>
+            <tr>
+              <th>PKID</th>
+              <th>ACCOUNTID</th>
+              <th>CLASSID</th>
+              <th>CODCORE</th>
+              <th>CODTRANSACCION</th>
+              <th>CUENTAPUC</th>
+              <th>DEPARTAMENTID</th>
+              <th>FECHAASIENTO</th>
+              <th>FECHAGENERACION</th>
+              <th>IDACCOUNTING</th>
+              <th>IDENTITYID</th>
+              <th>LOCATIONID</th>
+              <th>MEMO</th>
+              <th>MONTO</th>
+              <th>NATURALEZA</th>
+              <th>NOTA</th>
+              <th>PSESSION</th>
+              <th>SUBSIDIARY</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let ac of accounting">
+              <td>{{ac.pkidregister}}</td>
+              <td>{{ac.accountid}}</td>
+              <td>{{ac.classid}}</td>
+              <td>{{ac.codcore}}</td>
+              <td>{{ac.codtransaccion}}</td>
+              <td>{{ac.cuentapuc}}</td>
+              <td>{{ac.departamentid}}</td>
+              <td>{{ac.fechaasiento}}</td>
+              <td>{{ac.fechageneracion}}</td>
+              <td>{{ac.idaccounting}}</td>
+              <td>{{ac.identityid}}</td>
+              <td>{{ac.locationid}}</td>
+              <td>{{ac.memo}}</td>
+              <td>{{ac.monto}}</td>
+              <td>{{ac.naturaleza}}</td>
+              <td>{{ac.nota}}</td>
+              <td>{{ac.psession}}</td>
+              <td>{{ac.subsidiary}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
   </div>
   <div class="tab-pane fade " id="pills-buscar" role="tabpanel" aria-labelledby="pills-buscar-tab">
     <h2>Accounting</h2>
     <p>Aqui se listan los Accounting</p>
     <hr>
-    <button class="btn btn-info mx-1" (click)="exportexcel()"><fa-icon [icon]="faDownload"></fa-icon> Export to Excel</button>
+    <button class="btn btn-info mx-1" (click)="exportexcel('tableAccountingSearch')"><fa-icon [icon]="faDownload"></fa-icon> Export to Excel</button>
     <hr>
     <div class="row mb-5">
       <div class="col-8">
@@ -161,7 +213,7 @@
               <!-- <th>DEPARTAMENTID</th> -->
               <!-- <th>FECHAASIENTO</th> -->
               <!-- <th>FECHAGENERACION</th> -->
-              <th>IDACCOUNTING</th>
+              <!-- <th>IDACCOUNTING</th> -->
               <!-- <th>IDENTITYID</th> -->
               <!-- <th>LOCATIONID</th> -->
               <th>MEMO</th>
@@ -173,7 +225,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let ac of accounting">
+            <tr *ngFor="let ac of searchTable">
               <td>{{ac.pkidregister}}</td>
               <td>{{ac.accountid}}</td>
               <!-- <td>{{ac.classid}}</td> -->
@@ -183,7 +235,7 @@
               <!-- <td>{{ac.departamentid}}</td> -->
               <!-- <td>{{ac.fechaasiento}}</td> -->
               <!-- <td>{{ac.fechageneracion}}</td> -->
-              <td>{{ac.idaccounting}}</td>
+              <!-- <td>{{ac.idaccounting}}</td> -->
               <!-- <td>{{ac.identityid}}</td> -->
               <!-- <td>{{ac.locationid}}</td> -->
               <td>{{ac.memo}}</td>
@@ -204,7 +256,7 @@
     <!-- Tabla para exportar  -->
     <div class="row hide" >
       <div class="col">
-        <table class="table table-hover table-bordered" id="tableAccounting" >
+        <table class="table table-hover table-bordered" id="tableAccountingSearch" >
           <thead>
             <tr>
               <th>PKID</th>

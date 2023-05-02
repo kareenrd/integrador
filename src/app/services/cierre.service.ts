@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http'
 import { Cierre, createCierre, session, date } from 'src/app/models/cierre.model';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,7 @@ export class CierreService {
     private http: HttpClient
   ) { }
 
-  private api = 'http://173.2.9.143:3020/Api';
+  private api = environment.CIERRE_API;
 
   list(){
     return this.http.get<Cierre[]>(`${this.api}/list/`)

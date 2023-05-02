@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http'
 import { Core, createCore } from 'src/app/models/core.model';
 
+import { environment } from '../../environments/environment';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -11,7 +13,7 @@ export class CoreService {
     private http: HttpClient
   ) { }
 
-  private api = 'http://173.2.9.143:3022/Api';
+  private api = environment.CORE_API;
 
   list(){
     return this.http.get<Core[]>(`${this.api}/list/`)

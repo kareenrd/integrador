@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http'
 import { Accounting, createAccounting, searchAccounting, generateAccounting } from 'src/app/models/accounting.model';
 
+import { environment } from '../../environments/environment';
 @Injectable({
   providedIn: 'root'
 })
@@ -11,8 +12,8 @@ export class AccountingService {
     private http: HttpClient
   ) { }
 
-  private api = 'http://localhost:8083/Api';
-  private api_netsuite = 'http://localhost:8087/Api'
+  private api = environment.ACCOUNTING_API;
+  private api_netsuite = environment.NETSUITE_API
 
   generate(data: generateAccounting){
     return this.http.post<Accounting[]>(`${this.api}/GenerarAsiento/`, data);

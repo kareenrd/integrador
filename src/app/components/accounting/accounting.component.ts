@@ -54,6 +54,7 @@ export class AccountingComponent{
   hoy = new Date();
 
   accounting: Accounting[] = [];
+  searchTable: Accounting[] = [];
   newAccounting: createAccounting = {
     accountid: '',
     classid: '',
@@ -122,65 +123,19 @@ export class AccountingComponent{
   search = "null";
   estado = 'none';
 
-
-  //displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
-  displayedColumns: string[] = ['accountid',
-  'codtransaccion',
-  'cuentapuc',
-  'idaccounting',
-  'memo',
-  'monto',
-  'naturaleza',
-  'nota']
-  ;
-  dataSource:any;
-
-
   constructor(
     private accountingService: AccountingService,
     private subsidiaryService: SubsidiaryService,
     private coreService: CoreService,
     private cierreService: CierreService,
 
-    private _liveAnnouncer: LiveAnnouncer
-
-
-
-  ){
-    console.log('displayedColumns ',this.displayedColumns);
-   }
+  ){   }
 
   @ViewChild(MatSort)
   sort: MatSort = new MatSort;
 
-  // ngAfterViewInit() {
-  //   this.dataSource.sort = this.sort;
-  // }
-
-  /** Announce the change in sort state for assistive technology. */
-  announceSortChange(sortState: Sort) {
-    // This example uses English messages. If your application supports
-    // multiple language, you would internationalize these strings.
-    // Furthermore, you can customize the message to add additional
-    // details about the values being sorted.
-    if (sortState.direction) {
-      this._liveAnnouncer.announce(`Sorted ${sortState.direction} ending`);
-    } else {
-      this._liveAnnouncer.announce('Sorting cleared');
-    }
-  }
-
   ngOnInit(){
     console.log('onInit Accounting');
-    /*this.accountingService.generate().subscribe(data => {
-      console.log(data);
-      this.accounting = data;
-    }, error => {
-      //document.getElementById('errorAccounting').innerHTML = 'display:block;';
-      //$('errorCode');
-      //this.toastr.error('Operación exitosa', '¡Genial!');
-      console.log("error: ",error);
-    });*/
 
     this.subsidiaryService.list().subscribe(data => {
       console.log('subsidiaryService ',data);
@@ -214,11 +169,7 @@ export class AccountingComponent{
     console.log('search  ',this.search);
     this.accountingService.get(this.search).subscribe(data => {
       console.log(data);
-      this.accounting = data;
-      this.dataSource = new MatTableDataSource(this.accounting);
-      //this.dataSource = new MatTableDataSource(this.accounting);
-      //this.dataSource = (this.accounting);
-      this.dataSource.sort = this.sort;
+      this.searchTable = data;
     });
   }
 
@@ -237,9 +188,9 @@ export class AccountingComponent{
 
 
 
-  exportexcel(){
+  exportexcel(id: string){
     /* pass here the table id */
-    const element = document.getElementById('tableAccounting');
+    const element = document.getElementById(id);
     const ws: XLSX.WorkSheet =XLSX.utils.table_to_sheet(element);
 
     /* generate workbook and add the worksheet */

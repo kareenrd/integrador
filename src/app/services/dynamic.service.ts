@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http'
 import { Dynamic, createDynamic } from 'src/app/models/dynamic.model';
 
+import { environment } from '../../environments/environment';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -11,7 +13,7 @@ export class DynamicService {
     private http: HttpClient
   ) { }
 
-  private api = 'http://173.2.9.143:3023/Api';
+  private api = environment.DYNAMIC_API;
 
   list(){
     return this.http.get<Dynamic[]>(`${this.api}/list/`)

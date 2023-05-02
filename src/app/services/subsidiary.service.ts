@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http'
 import { Subsidiary, createSubsidiary } from 'src/app/models/subsidiary.model';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,7 @@ export class SubsidiaryService {
     private http: HttpClient
   ) { }
 
-  private api = 'http://173.2.9.143:3021/Api';
+  private api = environment.SUBSIDIARY_API
 
   list(){
     return this.http.get<Subsidiary[]>(`${this.api}/list/`)
